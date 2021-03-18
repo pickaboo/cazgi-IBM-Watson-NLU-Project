@@ -53,7 +53,7 @@ app.get("/",(req,res)=>{
 app.get("/url/emotion", (req,res) => {
     getNLUInstance().analyze(getParams(true, true, req.query.url))
     .then (result => {
-        return res.send({emotions: result.result.entities[0].emotion});
+        return res.send(JSON.stringify(result.result.keywords[0].emotion));
     }
     );
 });
@@ -70,7 +70,6 @@ app.get("/url/sentiment", (req,res) => {
 app.get("/text/emotion", (req,res) => {
     const nlu = getNLUInstance();
     nlu.analyze(getParams(false, true, req.query.text)).then (result => {
-        console.log(JSON.stringify(result.result));
         return res.send(JSON.stringify(result.result.keywords[0].emotion));
     });
 });
@@ -80,7 +79,6 @@ app.get("/text/sentiment", (req,res) => {
     const nlu = getNLUInstance();
   
     nlu.analyze(getParams(false, false, req.query.text)).then (result => {
-    console.log(JSON.stringify(result.result.keywords[0]));
         return res.send(JSON.stringify(result.result.keywords[0].sentiment.label));
     });
 });
